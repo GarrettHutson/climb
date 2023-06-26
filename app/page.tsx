@@ -1,7 +1,7 @@
-
+import { PrismaClient } from "@prisma/client";
 
 export default async function Home() {
-
+  const prisma = new PrismaClient()
   let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -22,12 +22,24 @@ export default async function Home() {
           requestOptions
         );
         const result = await response.json();
+        let newName = `abc${Math.floor(Math.random()*10000)}`
+        let newEmail = `abc${Math.floor(Math.random()*10000)}`
+        const newUser = await prisma.user.create({
+          
+          data: {
+            name: newName, // Replace with the desired name for the new user
+            email: `${newEmail}.doe@example.com`, // Replace with the desired email for the new user
+          },
+        });
+        
+        const allUsers = await prisma.user.findMany()
+        prisma.$disconnect();
 
-    
-
+if(!newUser || !result) return <div className="flex min-h-screen flex-col items-center justify-between p-24">loading....</div>
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
 <div>{result.data.areas[0].area_name}</div>
+<div>{newUser.name}</div>
     </main>
   )
 }

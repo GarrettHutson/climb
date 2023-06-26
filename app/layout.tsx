@@ -1,5 +1,9 @@
 import './globals.css'
+import Nav from './components/Nav'
+import {
+  ClerkProvider,
 
+} from '@clerk/nextjs'
 
 export const metadata = {
   title: 'Beta-Data',
@@ -12,8 +16,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+
+        <body>
+          <Nav />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
